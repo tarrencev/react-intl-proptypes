@@ -1,21 +1,24 @@
+// Heavily inspired by the ReactPropTypes.js implementation found in React.js
 import {
 	FormattedDate,
 	FormattedHTMLMessage,
-	FormattedNumber,
 	FormattedMessage,
+	FormattedNumber,
 	FormattedPlural,
 	FormattedRelative,
 	FormattedTime,
 } from 'react-intl';
 
+const ANONYMOUS = '<<anonymous>>';
+
 const ReactIntlPropTypes = {
 	formattedDate: createReactIntlTypeChecker(FormattedDate),
-	formattedTime: createReactIntlTypeChecker(),
-	formattedRelative: createReactIntlTypeChecker(),
-	formattedNumber: createReactIntlTypeChecker(),
-	formattedPlural: createReactIntlTypeChecker(),
-	formattedMessage: createReactIntlTypeChecker(),
-	formattedHTMLMessage: createReactIntlTypeChecker(),
+	formattedHTMLMessage: createReactIntlTypeChecker(FormattedHTMLMessage),
+	formattedMessage: createReactIntlTypeChecker(FormattedMessage),
+	formattedNumber: createReactIntlTypeChecker(FormattedNumber),
+	formattedPlural: createReactIntlTypeChecker(FormattedPlural),
+	formattedRelative: createReactIntlTypeChecker(FormattedRelative),
+	formattedTime: createReactIntlTypeChecker(FormattedTime),
 };
 
 // Equivalent of `typeof` but with special handling for array and regexp.
@@ -33,10 +36,11 @@ function getPropType(propValue) {
 }
 
 function createChainableTypeChecker(validate) {
-	function checkType(isRequired, props, propName, componentName, location) {
-	componentName = componentName || ANONYMOUS;
+	function checkType(isRequired, props, propName, componentName = ANONYMOUS, location) {
+
 	if (props[propName] == null) {
 		if (isRequired) {
+
 			return new Error(
 				`Required ${location} \`${propName}\` was not specified in ` +
 				`\`${componentName}\`.`
@@ -49,16 +53,20 @@ function createChainableTypeChecker(validate) {
 
 function createReactIntlTypeChecker(expectedType) {
 	function validate(props, propName, componentName, location) {
-		var propValue = props[propName];
+		const propValue = props[propName];
+
 		if (propValue !== instanceof expectedType) {
-			var propType = getPropType(propValue);
+			const propType = getPropType(propValue);
+
 			return new Error(
 				`Invalid ${location} \`${propName}\` of type \`${propType}\` ` +
-				`supplied to \`${componentName}\`, expected \`${immutableClassName}\`.`
+				`supplied to \`${componentName}\`, expected \`${expectedType}\`.`
 			);
 		}
+
 		return null;
 	}
+
 	return createChainableTypeChecker(validate);
 }
 
