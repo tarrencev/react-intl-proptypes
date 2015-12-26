@@ -38,8 +38,6 @@ function getComponentName(componentClass) {
 
 function createReactIntlTypeChecker(expectedComponent) {
   function validate(props, propName, componentName, location) {
-
-
     const actualComponent = props[propName].type;
     if (!ReactElement.isValidElement(props[propName]) || actualComponent !== expectedComponent) {
       const expectedComponentName = getComponentName(expectedComponent);

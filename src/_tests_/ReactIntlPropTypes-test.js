@@ -21,7 +21,7 @@ import {
   formattedTime,
 } from '../ReactIntlPropTypes';
 
-function typeCheckFail(declaration, value, message) {
+function typeCheckFail(declaration, value) {
   const props = { testProp: value };
   const error = declaration(
     props,

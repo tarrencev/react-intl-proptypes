@@ -3,11 +3,13 @@
   "version": "0.0.1",
   "main": "lib/ReactIntlPropTypes.js",
   "scripts": {
-    "build": "./node_modules/.bin/babel -d lib/ src/",
-    "clean": "./node_modules/.bin/rimraf lib/",
-    "lint": "./node_modules/.bin/eslint src/",
-    "test": "./node_modules/.bin/mocha ./src/_tests_/*.js --require babel-core/register"
+    "build": "babel -d lib/ src/",
+    "clean": "rimraf lib/",
+    "lint": "eslint src/",
+    "test": "mocha ./src/_tests_/*.js --require babel-core/register",
+    "prepublish": "npm run lint && npm run clean && npm run build"
   },
+  "description": "PropType validators for ReactIntl components, i.e. `<FormattedMessage />`.",
   "devDependencies": {
     "babel-cli": "^6.3.17",
     "babel-core": "^6.3.26",
@@ -22,5 +24,24 @@
     "react": "^0.14.3",
     "react-intl": "v2.0.0-beta-2",
     "rimraf": "^2.5.0"
-  }
+  },
+  "peerDependencies": {
+    "react": "^0.14.3",
+    "react-intl": "^2.0.0-beta-2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tarrencev/react-intl-proptypes.git"
+  },
+  "keywords": [
+    "react",
+    "react-intl",
+    "proptypes"
+  ],
+  "author": "Tarrence van As",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tarrencev/react-intl-proptypes/issues"
+  },
+  "homepage": "https://github.com/tarrencev/react-intl-proptypes#readme"
 }
