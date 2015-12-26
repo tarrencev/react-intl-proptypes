@@ -1,4 +1,5 @@
 # react-intl-proptypes
+[![Build Status](https://travis-ci.org/tarrencev/react-intl-proptypes.svg)](https://travis-ci.org/tarrencev/react-intl-proptypes)
 
 PropType validators for ReactIntl components, i.e. `<FormattedMessage />`.
 
