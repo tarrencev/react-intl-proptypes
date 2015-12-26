@@ -1,4 +1,5 @@
-// Heavily inspired by the ReactPropTypes.js implementation found in React.js
+import ReactElement from 'react/lib/ReactElement';
+
 import {
   FormattedDate,
   FormattedHTMLMessage,
@@ -10,19 +11,6 @@ import {
 } from 'react-intl';
 
 const ANONYMOUS = '<<anonymous>>';
-
-// Equivalent of `typeof` but with special handling for array and regexp.
-function getPropType(propValue) {
-  if (Array.isArray(propValue)) {
-    return 'array';
-  } else if (propValue instanceof RegExp) {
-    // Old webkits (at least until Android 4.0) return 'function' rather than
-    // 'object' for typeof a RegExp. We'll normalize this here so that /bla/
-    // passes PropTypes.object.
-    return 'object';
-  }
-  return typeof propValue;
-}
 
 function createChainableTypeChecker(validate) {
   function checkType(isRequired, props, propName, componentName = ANONYMOUS, location) {
@@ -44,16 +32,22 @@ function createChainableTypeChecker(validate) {
   return chainedCheckType;
 }
 
-function createReactIntlTypeChecker(expectedType) {
-  function validate(props, propName, componentName, location) {
-    const propValue = props[propName];
+function getComponentName(componentClass) {
+  return componentClass && componentClass.name || ANONYMOUS;
+}
 
-    if (!(propValue instanceof expectedType)) {
-      const propType = getPropType(propValue);
+function createReactIntlTypeChecker(expectedComponent) {
+  function validate(props, propName, componentName, location) {
+
+
+    const actualComponent = props[propName].type;
+    if (!ReactElement.isValidElement(props[propName]) || actualComponent !== expectedComponent) {
+      const expectedComponentName = getComponentName(expectedComponent);
+      const actualComponentName = getComponentName(actualComponent);
 
       return new Error(
-        `Invalid ${location} \`${propName}\` of type \`${propType}\` ` +
-        `supplied to \`${componentName}\`, expected \`${expectedType}\`.`
+        `Invalid ${location} \`${propName}\` of type \`${actualComponentName}\` ` +
+        `supplied to \`${componentName}\`, expected \`${expectedComponentName}\`.`
       );
     }
 
@@ -63,12 +57,10 @@ function createReactIntlTypeChecker(expectedType) {
   return createChainableTypeChecker(validate);
 }
 
-export default {
-  formattedDate: createReactIntlTypeChecker(FormattedDate),
-  formattedHTMLMessage: createReactIntlTypeChecker(FormattedHTMLMessage),
-  formattedMessage: createReactIntlTypeChecker(FormattedMessage),
-  formattedNumber: createReactIntlTypeChecker(FormattedNumber),
-  formattedPlural: createReactIntlTypeChecker(FormattedPlural),
-  formattedRelative: createReactIntlTypeChecker(FormattedRelative),
-  formattedTime: createReactIntlTypeChecker(FormattedTime),
-};
+export const formattedDate = createReactIntlTypeChecker(FormattedDate);
+export const formattedHTMLMessage = createReactIntlTypeChecker(FormattedHTMLMessage);
+export const formattedMessage = createReactIntlTypeChecker(FormattedMessage);
+export const formattedNumber = createReactIntlTypeChecker(FormattedNumber);
+export const formattedPlural = createReactIntlTypeChecker(FormattedPlural);
+export const formattedRelative = createReactIntlTypeChecker(FormattedRelative);
+export const formattedTime = createReactIntlTypeChecker(FormattedTime);

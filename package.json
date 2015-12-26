@@ -17,9 +17,10 @@
     "eslint": "^1.10.3",
     "eslint-config-airbnb": "^2.1.1",
     "eslint-plugin-react": "^3.13.0",
+    "intl": "^1.0.1",
     "mocha": "^2.3.4",
     "react": "^0.14.3",
-    "react-intl": "^1.2.2",
+    "react-intl": "v2.0.0-beta-2",
     "rimraf": "^2.5.0"
   }
 }
